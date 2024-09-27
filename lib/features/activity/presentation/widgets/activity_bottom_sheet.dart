@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:tautulli_remote/core/types/playback_state.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
@@ -192,8 +193,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                               child: CachedNetworkImage(
                                                 imageUrl: posterUri.toString(),
                                                 httpHeaders: {
-                                                  for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                                                    headerModel.key: headerModel.value,
+                                                  for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                                                 },
                                                 placeholder: (context, url) => Image.asset(
                                                   'assets/images/poster_fallback.png',
@@ -251,10 +251,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                         ),
                                                       ),
                                                     ),
-                                                    if (activity.live != true &&
-                                                        activity.duration != null &&
-                                                        activity.viewOffset != null &&
-                                                        activity.duration != null)
+                                                    if (activity.live != true && activity.duration != null && activity.viewOffset != null && activity.duration != null)
                                                       Column(
                                                         crossAxisAlignment: CrossAxisAlignment.end,
                                                         children: [
@@ -269,8 +266,9 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                                 const Text(' • '),
                                                               ],
                                                               TimeTotal(
-                                                                viewOffset: activity.viewOffset!,
+                                                                viewOffset: Duration(milliseconds: activity.viewOffset!),
                                                                 duration: activity.duration!,
+                                                                isPlaying: activity.state == PlaybackState.playing,
                                                               ),
                                                             ],
                                                           ),
